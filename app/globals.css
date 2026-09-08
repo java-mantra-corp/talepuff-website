@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/*
+  Talepuff's palette, from the logo: amber cloud on cream by day, white cloud on night
+  blue after dark. Everything on the site is one of these seven colours.
+*/
+:root {
+  --cream: #fbf7f0;
+  --sand: #efe6d6;
+  --ink: #1e2a4a;
+  --ink-soft: #4b5470;
+  --amber: #c8861b;
+  --amber-deep: #a86e12;
+  --moon: #f6d98a;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-amber: var(--amber);
+  --color-amber-deep: var(--amber-deep);
+  --color-moon: var(--moon);
+  --font-sans: var(--font-nunito), "Nunito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --radius-xl2: 1.25rem;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--moon);
+  color: var(--ink);
+}
+
+/* Long-form pages: privacy for parents, support, legal. */
+.prose-tp h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.prose-tp h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.prose-tp p,
+.prose-tp li {
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.prose-tp p {
+  margin-bottom: 1rem;
+}
+.prose-tp ul {
+  margin: 0 0 1rem 1.25rem;
+  list-style: disc;
+}
+.prose-tp ol {
+  margin: 0 0 1rem 1.25rem;
+  list-style: decimal;
+}
+.prose-tp li {
+  margin-bottom: 0.35rem;
+}
+.prose-tp a {
+  color: var(--amber-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-tp strong {
+  color: var(--ink);
+}
+.prose-tp table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.95rem;
+}
+.prose-tp th,
+.prose-tp td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--sand);
+  vertical-align: top;
+}
+.prose-tp th {
+  font-weight: 700;
+  color: var(--ink);
+}
