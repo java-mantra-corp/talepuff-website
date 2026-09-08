@@ -1,101 +1,175 @@
 @import "tailwindcss";
 
 /*
-  Talepuff's palette, from the logo: amber cloud on cream by day, white cloud on night
-  blue after dark. Everything on the site is one of these seven colours.
+  Night sky. The product is for the dark, so the site lives there: deep indigo ground,
+  raised panels a shade lighter, warm gold for anything you can press (the cube's light),
+  and soft lavender text. Change these seven values and the whole site follows.
 */
 :root {
-  --cream: #fbf7f0;
-  --sand: #efe6d6;
-  --ink: #1e2a4a;
-  --ink-soft: #4b5470;
-  --amber: #c8861b;
-  --amber-deep: #a86e12;
-  --moon: #f6d98a;
+  --bg: #0b1026;
+  --panel: #141b3a;
+  --panel-2: #1c244d;
+  --line: rgba(255, 255, 255, 0.09);
+  --text: #f4f2ff;
+  --muted: #b3b6d6;
+  --accent: #ffb454;
+  --accent-2: #ff9a1f;
+  --glow: #7c6cff;
 }
 
 @theme inline {
-  --color-cream: var(--cream);
-  --color-sand: var(--sand);
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-amber: var(--amber);
-  --color-amber-deep: var(--amber-deep);
-  --color-moon: var(--moon);
-  --font-sans: var(--font-nunito), "Nunito", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --radius-xl2: 1.25rem;
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-glow: var(--glow);
+  --font-sans: var(--font-outfit), "Outfit", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --radius-xl2: 1.5rem;
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
 }
 
 ::selection {
-  background: var(--moon);
-  color: var(--ink);
+  background: var(--accent);
+  color: var(--bg);
 }
 
-/* Long-form pages: privacy for parents, support, legal. */
-.prose-tp h2 {
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  font-size: 1.5rem;
-  font-weight: 800;
-  line-height: 1.2;
+/* The hero's sky: a soft violet dawn low on the horizon and a scatter of stars. */
+.sky {
+  background:
+    radial-gradient(1200px 600px at 20% 110%, rgba(124, 108, 255, 0.35), transparent 60%),
+    radial-gradient(800px 400px at 85% -10%, rgba(255, 180, 84, 0.18), transparent 60%),
+    var(--bg);
+  position: relative;
+  overflow: hidden;
 }
-.prose-tp h3 {
-  margin-top: 1.75rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 700;
+.sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, #fff 60%, transparent 62%),
+    radial-gradient(1px 1px at 28% 68%, #fff 60%, transparent 62%),
+    radial-gradient(1.5px 1.5px at 41% 14%, #fff 60%, transparent 62%),
+    radial-gradient(1px 1px at 56% 82%, #fff 60%, transparent 62%),
+    radial-gradient(1.5px 1.5px at 66% 35%, #fff 60%, transparent 62%),
+    radial-gradient(1px 1px at 78% 60%, #fff 60%, transparent 62%),
+    radial-gradient(1.5px 1.5px at 90% 18%, #fff 60%, transparent 62%),
+    radial-gradient(1px 1px at 8% 85%, #fff 60%, transparent 62%),
+    radial-gradient(1px 1px at 47% 48%, #fff 60%, transparent 62%),
+    radial-gradient(1.5px 1.5px at 95% 78%, #fff 60%, transparent 62%);
+  opacity: 0.55;
+  animation: twinkle 6s ease-in-out infinite alternate;
 }
-.prose-tp p,
-.prose-tp li {
-  color: var(--ink-soft);
-  line-height: 1.7;
+@keyframes twinkle {
+  from { opacity: 0.35; }
+  to { opacity: 0.75; }
 }
-.prose-tp p {
-  margin-bottom: 1rem;
+
+/* The cube, in CSS: three faces, a lit top, floating slowly. */
+.cube-scene {
+  perspective: 1100px;
+  width: 300px;
+  height: 320px;
+  margin: 0 auto;
 }
-.prose-tp ul {
-  margin: 0 0 1rem 1.25rem;
-  list-style: disc;
+.cube {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 60px auto 0;
+  transform-style: preserve-3d;
+  transform: rotateX(-24deg) rotateY(-34deg);
+  animation: float 6s ease-in-out infinite;
 }
-.prose-tp ol {
-  margin: 0 0 1rem 1.25rem;
-  list-style: decimal;
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotateX(-24deg) rotateY(-34deg); }
+  50% { transform: translateY(-12px) rotateX(-24deg) rotateY(-34deg); }
 }
-.prose-tp li {
-  margin-bottom: 0.35rem;
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
-.prose-tp a {
-  color: var(--amber-deep);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.face-front {
+  transform: translateZ(100px);
+  background: linear-gradient(160deg, #262f66, #171e45);
 }
-.prose-tp strong {
-  color: var(--ink);
+.face-right {
+  transform: rotateY(90deg) translateZ(100px);
+  background: linear-gradient(160deg, #1a2150, #10163a);
 }
-.prose-tp table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1rem 0 1.5rem;
-  font-size: 0.95rem;
+.face-left {
+  transform: rotateY(-90deg) translateZ(100px);
+  background: linear-gradient(200deg, #2a3372, #1a2150);
 }
-.prose-tp th,
-.prose-tp td {
-  text-align: left;
-  padding: 0.6rem 0.75rem;
-  border-bottom: 1px solid var(--sand);
-  vertical-align: top;
+.face-back {
+  transform: rotateY(180deg) translateZ(100px);
+  background: #10163a;
 }
-.prose-tp th {
-  font-weight: 700;
-  color: var(--ink);
+.face-bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+  background: #0d1230;
 }
+.face-top {
+  transform: rotateX(90deg) translateZ(100px);
+  background: radial-gradient(circle at 50% 50%, #3a3f8f 0%, #262d6e 55%, #1c2360 100%);
+  display: grid;
+  place-items: center;
+}
+.ring {
+  width: 132px;
+  height: 132px;
+  border-radius: 999px;
+  border: 10px solid var(--accent);
+  box-shadow:
+    0 0 24px rgba(255, 180, 84, 0.9),
+    0 0 70px rgba(255, 180, 84, 0.45),
+    inset 0 0 30px rgba(255, 180, 84, 0.35);
+  display: grid;
+  place-items: center;
+  animation: breathe 3.5s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 180, 84, 0.7), 0 0 60px rgba(255, 180, 84, 0.35), inset 0 0 26px rgba(255, 180, 84, 0.3); }
+  50% { box-shadow: 0 0 34px rgba(255, 180, 84, 1), 0 0 90px rgba(255, 180, 84, 0.55), inset 0 0 40px rgba(255, 180, 84, 0.45); }
+}
+.cube-shadow {
+  width: 240px;
+  height: 40px;
+  margin: 26px auto 0;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, rgba(124, 108, 255, 0.45), transparent);
+  filter: blur(6px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cube, .ring, .sky::before { animation: none; }
+}
+
+/* Long-form pages. */
+.prose-tp h2 { margin: 2.5rem 0 0.75rem; font-size: 1.5rem; font-weight: 700; line-height: 1.2; color: var(--text); }
+.prose-tp h3 { margin: 1.75rem 0 0.5rem; font-size: 1.125rem; font-weight: 600; color: var(--text); }
+.prose-tp p, .prose-tp li { color: var(--muted); line-height: 1.75; }
+.prose-tp p { margin-bottom: 1rem; }
+.prose-tp ul { margin: 0 0 1rem 1.25rem; list-style: disc; }
+.prose-tp ol { margin: 0 0 1rem 1.25rem; list-style: decimal; }
+.prose-tp li { margin-bottom: 0.35rem; }
+.prose-tp a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose-tp strong { color: var(--text); }
+.prose-tp table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.95rem; }
+.prose-tp th, .prose-tp td { text-align: left; padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.prose-tp th { font-weight: 600; color: var(--text); }

@@ -7,7 +7,7 @@ import type { SVGProps } from "react";
  * the shape that goes on the top of the cube.
  */
 export function BrandMark({
-  face = "var(--cream)",
+  face = "var(--bg)",
   title = "Talepuff",
   ...props
 }: SVGProps<SVGSVGElement> & { face?: string; title?: string }) {
@@ -34,7 +34,7 @@ export function BrandMark({
 
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span className={`font-extrabold tracking-tight ${className}`} aria-hidden="true">
+    <span className={`font-bold tracking-tight ${className}`} aria-hidden="true">
       talepuff
     </span>
   );

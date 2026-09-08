@@ -24,27 +24,27 @@ export default function HowItWorks() {
         title="Two minutes to set up. Four touches at bedtime."
         lede="Everything a child does happens on the cube. Everything a parent decides happens in the app."
       />
-      <Section tone="sand">
-        <h2 className="text-3xl font-extrabold tracking-tight">Setup, once</h2>
+      <Section tone="raised">
+        <h2 className="text-3xl font-bold tracking-tight">Setup, once</h2>
         <ol className="mt-8 grid gap-8 sm:grid-cols-2">
           {setup.map((s, i) => (
             <StepCard key={s.title} n={i + 1} title={s.title} body={s.body} />
           ))}
         </ol>
-        <p className="mt-8 text-sm text-ink-soft">
+        <p className="mt-8 text-sm text-muted">
           No email confirmation before the first story, no payment screen in the middle of setup. Those can wait for the morning.
         </p>
       </Section>
       <Section>
-        <h2 className="text-3xl font-extrabold tracking-tight">Bedtime, every night</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Bedtime, every night</h2>
         <ol className="mt-8 grid gap-8 sm:grid-cols-2">
           {steps.map((s, i) => (
             <StepCard key={s.title} n={i + 1} title={s.title} body={s.body} />
           ))}
         </ol>
       </Section>
-      <Section tone="sand">
-        <h2 className="text-3xl font-extrabold tracking-tight">What happens in the two seconds before the story</h2>
+      <Section tone="raised">
+        <h2 className="text-3xl font-bold tracking-tight">What happens in the two seconds before the story</h2>
         <div className="prose-tp mt-6 max-w-3xl">
           <p>
             The cube sends your child&rsquo;s eight seconds of speech to Talepuff&rsquo;s servers, where it is turned into words and the recording is discarded. The words are checked. A story is written for that request, for your child&rsquo;s age and in the storyteller&rsquo;s style, and it is checked again, sentence by sentence, before the voice reads it. The first sentence usually arrives in two to three seconds; the rest follows as it is spoken.
@@ -58,7 +58,7 @@ export default function HowItWorks() {
         </div>
       </Section>
       <Section>
-        <h2 className="text-3xl font-extrabold tracking-tight">The storytellers</h2>
+        <h2 className="text-3xl font-bold tracking-tight">The storytellers</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {storytellers.map((s) => (
             <StorytellerCard key={s.name} {...s} />

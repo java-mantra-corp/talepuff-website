@@ -41,15 +41,15 @@ export default function Support() {
         lede={`Most things are one screen away in the app. For everything else, ${SUPPORT_EMAIL} reaches a person.`}
       />
       <Section>
-        <h2 className="text-3xl font-extrabold tracking-tight">When something is wrong</h2>
+        <h2 className="text-3xl font-bold tracking-tight">When something is wrong</h2>
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
           {fixes.map((f) => (
             <FaqItem key={f.title} q={f.title} a={f.body} />
           ))}
         </div>
       </Section>
-      <Section tone="sand">
-        <h2 className="text-3xl font-extrabold tracking-tight">Questions parents ask</h2>
+      <Section tone="raised">
+        <h2 className="text-3xl font-bold tracking-tight">Questions parents ask</h2>
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
           {faqs.map((f) => (
             <FaqItem key={f.q} q={f.q} a={f.a} />
@@ -58,9 +58,9 @@ export default function Support() {
       </Section>
       <Section>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-extrabold">Still stuck?</h2>
-          <p className="mt-2 text-ink-soft">Email us with the cube&rsquo;s serial from the card in the box. We answer within a day.</p>
-          <a href={`mailto:${SUPPORT_EMAIL}?subject=Talepuff%20support`} className="mt-6 inline-block rounded-full bg-amber px-6 py-3 font-extrabold text-white hover:bg-amber-deep">
+          <h2 className="text-2xl font-bold">Still stuck?</h2>
+          <p className="mt-2 text-muted">Email us with the cube&rsquo;s serial from the card in the box. We answer within a day.</p>
+          <a href={`mailto:${SUPPORT_EMAIL}?subject=Talepuff%20support`} className="mt-6 inline-block rounded-full bg-accent px-6 py-3 font-bold text-bg hover:bg-accent-2">
             {SUPPORT_EMAIL}
           </a>
         </div>

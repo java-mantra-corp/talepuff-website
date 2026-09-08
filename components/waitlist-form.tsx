@@ -35,7 +35,7 @@ export function WaitlistForm() {
 
   if (state === "done") {
     return (
-      <p className="rounded-xl2 bg-white/70 p-5 font-bold text-ink ring-1 ring-sand">
+      <p className="rounded-xl2 border border-line bg-panel p-5 font-semibold">
         You are on the list. We will write when cubes ship, and not before.
       </p>
     );
@@ -54,17 +54,17 @@ export function WaitlistForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="you@example.com"
-        className="min-w-0 flex-1 rounded-full border border-sand bg-white px-5 py-3 text-ink outline-none ring-amber focus:ring-2"
+        className="min-w-0 flex-1 rounded-full border border-line bg-white/5 px-5 py-3 text-text placeholder:text-muted/70 outline-none focus:border-accent focus:ring-2 focus:ring-accent/40"
       />
       <button
         type="submit"
         disabled={state === "sending"}
-        className="rounded-full bg-amber px-6 py-3 font-extrabold text-white transition hover:bg-amber-deep disabled:opacity-60"
+        className="rounded-full bg-accent px-6 py-3 font-semibold text-bg transition hover:bg-accent-2 disabled:opacity-60"
       >
         {state === "sending" ? "Adding…" : "Tell me when it ships"}
       </button>
       {state === "failed" ? (
-        <p className="text-sm text-ink-soft sm:basis-full">
+        <p className="text-sm text-muted sm:basis-full">
           That did not go through. Try again, or email{" "}
           <a className="underline" href={`mailto:${SUPPORT_EMAIL}?subject=Waitlist`}>
             {SUPPORT_EMAIL}
@@ -73,7 +73,7 @@ export function WaitlistForm() {
         </p>
       ) : null}
       {state === "mailto" ? (
-        <p className="text-sm text-ink-soft sm:basis-full">
+        <p className="text-sm text-muted sm:basis-full">
           The list is not open yet. Email{" "}
           <a className="underline" href={`mailto:${SUPPORT_EMAIL}?subject=Waitlist`}>
             {SUPPORT_EMAIL}
