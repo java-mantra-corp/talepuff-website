@@ -40,7 +40,7 @@ export default function PrivacyForParents() {
               <tr>
                 <td>The words of a request</td>
                 <td>30 days</td>
-                <td>So &ldquo;the one from yesterday&rdquo; works, and so you can see what was asked</td>
+                <td>So &ldquo;the one from yesterday&rdquo; works, and so we can send them to you if you ask</td>
               </tr>
               <tr>
                 <td>Stories: text, title and narration</td>

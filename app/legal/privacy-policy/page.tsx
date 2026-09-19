@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: "Privacy policy", alternates: { canon
 
 export default function PrivacyPolicy() {
   return (
-    <LegalDoc title="Privacy policy" effective="when the first cube ships (draft)">
+    <LegalDoc title="Privacy policy" effective="19 September 2026 (version 2026-09-19)">
       <p>
         This policy explains what Java Mantra Corp (&ldquo;Talepuff&rdquo;, &ldquo;we&rdquo;) collects when you use the Talepuff cube, the Talepuff app and talepuff.com, why, and what you can do about it. The plain-words summary for parents is at /privacy and is part of this policy.
       </p>
@@ -20,12 +20,13 @@ export default function PrivacyPolicy() {
         <li><strong>Requests:</strong> the words a child says after pressing the button, produced by transcribing up to eight seconds of audio. The audio itself is discarded after transcription and is never stored.</li>
         <li><strong>Stories:</strong> the text, title and narration we generate in response, kept as your family&rsquo;s library.</li>
         <li><strong>Device data:</strong> the cube&rsquo;s serial, firmware version and when it was last online.</li>
+        <li><strong>Preferences:</strong> your family&rsquo;s settings: music, sleep sounds, whether stories of faith are told, and which version of the terms you accepted.</li>
         <li><strong>Payment:</strong> handled by our payment provider; we receive the plan status and the last four digits of a card, never the number.</li>
         <li><strong>Website:</strong> if you join the waitlist, your email address. We use privacy-respecting analytics without cookies.</li>
       </ul>
       <h2>3. Children&rsquo;s privacy (COPPA)</h2>
       <p>
-        Before the first story can be told, we obtain a parent&rsquo;s verifiable consent in the app, tied to the parent&rsquo;s account and payment method. We collect from a child only what a story needs: the request, a first name and an age. We do not show advertising, we do not build profiles for marketing, and we do not sell or rent children&rsquo;s data to anyone. A parent can review what was collected, withdraw consent and delete it at any time in the app. Requests about children&rsquo;s data: <a href="mailto:hello@talepuff.com">hello@talepuff.com</a>.
+        Before the first story can be told, we obtain a parent&rsquo;s consent in the app, tied to the parent&rsquo;s account. We collect from a child only what a story needs: the request, a first name and an age. We do not show advertising, we do not build profiles for marketing, and we do not sell or rent children&rsquo;s data to anyone. A parent can review what was collected (in the app, and by email for the words of requests), withdraw consent and delete it at any time. Requests about children&rsquo;s data: <a href="mailto:hello@talepuff.com">hello@talepuff.com</a>.
       </p>
       <h2>4. How we use it</h2>
       <ul>
@@ -49,11 +50,11 @@ export default function PrivacyPolicy() {
       </ul>
       <h2>7. Your choices</h2>
       <p>
-        In the app you can see each child&rsquo;s requests and stories, change or remove a child, withdraw consent, and close the account. Deletion reaches our backups within 30 days. You can also email us to exercise any right you have under the laws of your state or country, including access, correction and deletion.
+        In the app you can see each child&rsquo;s stories, change or remove a child, and withdraw consent. The words of a request are deliberately not shown on any screen; email us from the account address and we will send you the request words we still hold for your child within 30 days. To close the account, email us from the account address and we delete it as described above; closing in the app is coming with the store release. Deletion reaches our backups within 30 days. You can also email us to exercise any right you have under the laws of your state or country, including access, correction and deletion.
       </p>
       <h2>8. Security</h2>
       <p>
-        All traffic between the cube, the app and our servers is encrypted. The cube holds only a token for its own account, never an API key or a password. Passwords are hashed. Our staff do not read requests unless you ask us to investigate a problem.
+        All traffic between the cube, the app and our servers is encrypted. The cube holds only a token for its own account, never an API key or a password. Passwords are hashed. Our staff do not read a child&rsquo;s words except to investigate a problem you have raised or a refusal our safety checks made, and then only under a support case that records who looked and why.
       </p>
       <h2>9. Changes</h2>
       <p>We will email account holders before any change that affects children&rsquo;s data, and we will never make a change that reduces a child&rsquo;s protection retroactively.</p>

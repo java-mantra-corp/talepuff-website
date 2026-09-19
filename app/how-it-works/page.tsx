@@ -50,7 +50,7 @@ export default function HowItWorks() {
             The cube sends your child&rsquo;s eight seconds of speech to Talepuff&rsquo;s servers, where it is turned into words and the recording is discarded. The words are checked. A story is written for that request, for your child&rsquo;s age and in the storyteller&rsquo;s style, and it is checked again, sentence by sentence, before the voice reads it. The first sentence usually arrives in two to three seconds; the rest follows as it is spoken.
           </p>
           <p>
-            Every story is kept in your family&rsquo;s library. Ask for &ldquo;the one about the dragon&rdquo; tomorrow and the cube plays it back, for free and instantly. Stories continue as series when a child asks &ldquo;what happened next&rdquo;.
+            Every story is kept in your family&rsquo;s library. Ask for &ldquo;the one about the dragon&rdquo; tomorrow and the cube plays it back, for free and instantly. Every story also ends on a small choice for tomorrow, two ways it could go, and the next night begins wherever your child decided.
           </p>
           <p>
             If the internet is down, the cube has a small set of stories on board and tells one of those, so bedtime never depends on your router.

@@ -105,7 +105,19 @@ export const faqs = [
   },
   {
     q: "What if my child asks for something they shouldn't hear?",
-    a: "The storyteller politely declines and offers something else. Every request and every story passes checks before a word is spoken, and you can see what was asked in the app.",
+    a: "The storyteller politely declines and offers something else. Every request and every story passes checks before a word is spoken, and every refusal is reviewed by a person.",
+  },
+  {
+    q: "What if my child asks for Spider-Man, Elsa or Chhota Bheem?",
+    a: "Those characters belong to their own storytellers, and Talepuff does not reproduce them. The storyteller says so in one warm sentence, then tells an original story in the same spirit: a hero who climbs walls, a queen whose magic makes snow, a strong village boy who protects his friends.",
+  },
+  {
+    q: "What about Hanuman, Krishna or Noah?",
+    a: "Figures of faith are never given made-up adventures. The storyteller tells one of that tradition's own well-known stories, faithfully, and says where it comes from. You can turn stories of faith off in the app if you would rather tell them yourself.",
+  },
+  {
+    q: "Why does every story end with a choice?",
+    a: "Because a child with a decision to make comes back. Each story leaves one small door open for tomorrow and offers two ways it could go. The next night your child says which, and the story begins there.",
   },
   {
     q: "Can two children share one cube?",

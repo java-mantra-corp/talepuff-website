@@ -6,28 +6,115 @@ export const metadata: Metadata = { title: "Terms of service", alternates: { can
 
 export default function Terms() {
   return (
-    <LegalDoc title="Terms of service" effective="when the first cube ships (draft)">
-      <p>These terms are the agreement between you and Java Mantra Corp for the Talepuff cube, the Talepuff app and the Talepuff service. Using any of them means you accept these terms.</p>
-      <h2>1. Who can use Talepuff</h2>
-      <p>An account is opened by an adult who is the parent or legal guardian of every child using it. You are responsible for the children who use cubes on your account and for the consent you give on their behalf.</p>
-      <h2>2. The cube</h2>
-      <p>The cube is sold as a one-time purchase and is yours. It needs the Talepuff service to tell new stories; without a plan it continues to replay stories already told and to tell the stories it carries on board.</p>
-      <h2>3. The plan</h2>
+    <LegalDoc title="Terms of service" effective="19 September 2026 (version 2026-09-19)">
       <p>
-        The plan is ${plan.monthly} a month or ${plan.yearly} a year, for up to {plan.children} children and {plan.cubes} cubes, with {plan.newStoriesPerChildPerNight} new stories per child each night and unlimited replays. The first {plan.trialDays} days are free and begin with the first story told. Prices may change with 30 days&rsquo; notice by email; a change never applies before your next renewal. You can cancel at any time from the app and the plan runs to the end of the period you paid for.
+        These terms are the agreement between you and Java Mantra Corp of Fremont, California (&ldquo;Talepuff&rdquo;, &ldquo;we&rdquo;) for the Talepuff cube, the Talepuff app, the Talepuff service and talepuff.com. Creating an account, claiming a cube, or using any of them means you accept these terms and the <a href="/legal/privacy-policy">privacy policy</a>, which is part of them. If you do not agree, do not use Talepuff.
       </p>
-      <h2>4. Fair use</h2>
-      <p>The nightly story limit exists so that the price can stay the same for everyone. We may pause an account that uses the service in ways it was not designed for, such as automated requests, and we will tell you if we do.</p>
-      <h2>5. Content</h2>
-      <p>Stories are generated for your child&rsquo;s request and are checked before they are spoken, but no automated check is perfect. If a story is not what you would want your child to hear, tell us and we will look into it. Stories are for your family&rsquo;s private use.</p>
-      <h2>6. Your account</h2>
-      <p>Keep your password to yourself. Tell us if you think someone else has used your account. We may close an account that breaks these terms; you may close yours at any time in the app.</p>
-      <h2>7. Warranty and returns</h2>
-      <p>The cube is covered for one year against defects in materials and workmanship. Returns are described in the returns policy.</p>
-      <h2>8. Liability</h2>
-      <p>To the extent the law allows, our liability to you is limited to what you paid us in the twelve months before the claim. Nothing in these terms limits liability that cannot be limited by law.</p>
-      <h2>9. Changes and contact</h2>
-      <p>We will email you before these terms change in a way that matters. Questions: <a href="mailto:hello@talepuff.com">hello@talepuff.com</a>.</p>
+
+      <h2>In plain words</h2>
+      <ul>
+        <li>An adult opens the account and is responsible for the children who use it.</li>
+        <li>Stories are written by an AI for your child&rsquo;s request. They are checked before they are spoken, and no check is perfect.</li>
+        <li>The cube is yours. New stories need the plan. Cancel any time; the month you paid for runs out.</li>
+        <li>We limit what we are liable for, as far as the law allows. Nothing here takes away rights the law gives you.</li>
+      </ul>
+
+      <h2>1. Who can use Talepuff</h2>
+      <p>
+        An account may be opened only by an adult aged 18 or over who is the parent or legal guardian of every child who uses it, or who has that parent&rsquo;s permission. You are responsible for the children who use cubes on your account, for the consent you give on their behalf, and for keeping your account to your household. Talepuff is not offered where the law does not allow it.
+      </p>
+
+      <h2>2. Your account</h2>
+      <p>
+        You must give a real email address you control and keep your password to yourself. You are responsible for what is done on your account. Tell us at once if you think someone else has used it. We may suspend or close an account that breaks these terms, that has not paid for its plan, or that we reasonably believe is being used to harm a child or the service, and we will tell you if we do. You may close your account at any time by emailing us from the account address; closing in the app is coming with the store release.
+      </p>
+
+      <h2>3. Children and consent</h2>
+      <p>
+        Before a cube tells its first story we ask for your consent, in the app, to collect from your child what a story needs: a first name, an age and the words of each request. What we collect, why and for how long is set out in the privacy policy. You may withdraw consent at any time in the app; the cube then stops making and playing stories until you consent again. Withdrawing consent does not delete your family&rsquo;s library; removing a child does.
+      </p>
+
+      <h2>4. The cube</h2>
+      <p>
+        The cube is sold as a one-time purchase and, once paid for, is yours. It needs the Talepuff service and an internet connection to tell new stories. Without a plan it continues to replay stories already in your library and to tell the small set it carries on board. We may install software updates on the cube automatically to keep it safe and working; an update never changes what you have agreed to here.
+      </p>
+      <p>
+        <strong>Care and safety.</strong> The cube is for children aged three and over, used with an adult nearby. It contains a rechargeable battery and small internal parts: keep it away from water and heat, charge it only with the cable and adapter supplied or ones of the same rating, do not open it, and stop using it if it is damaged or becomes hot. The microphone is on only after the button is pressed and for a few seconds; the cube is not a monitor, an alarm or a safety device, and must not be relied on as one.
+      </p>
+
+      <h2>5. The plan</h2>
+      <p>
+        The plan is ${plan.monthly} a month or ${plan.yearly} a year, for up to {plan.children} children and {plan.cubes} cubes, with {plan.newStoriesPerChildPerNight} new stories per child each night and unlimited replays. The first {plan.trialDays} days are free and begin with the first story told. Prices are in US dollars and exclude taxes we are required to add. We may change the price with at least 30 days&rsquo; notice by email, and a change never applies before your next renewal.
+      </p>
+      <p>
+        Plans renew automatically until cancelled. You can cancel at any time from the app or by email; the plan runs to the end of the period you have paid for and you are not charged again. Apart from the trial, and the returns policy for the cube itself, payments are not refundable, except where the law says otherwise or where we withdraw the service, in which case we refund the unused part of any period you have paid for.
+      </p>
+
+      <h2>6. Stories</h2>
+      <p>
+        Stories are generated by an artificial-intelligence model from your child&rsquo;s request, their age and the storyteller you chose. Each request and each story passes automated checks before a word is spoken, and refusals are reviewed by us. No automated check is perfect: a story may occasionally be dull, mistaken, or not what you would have chosen. Stories are entertainment. They are not educational, medical, religious, legal or other advice, and they should not be relied on as facts. If a story is not what you would want your child to hear, tell us and we will look into it.
+      </p>
+      <p>
+        When a child asks for a character that belongs to somebody else, such as a film or comic-book character, the storyteller says so and tells an original story in its spirit instead; we do not reproduce or license those characters. When a child asks about a figure of a faith, the storyteller tells one of that tradition&rsquo;s own well-known stories, as it is told, and never invents new ones; you can turn these stories off in the app. Well-known tales in the public domain are told as themselves.
+      </p>
+
+      <h2>7. Acceptable use</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>use Talepuff for anything other than stories for the children on your account, in your household;</li>
+        <li>make automated or bulk requests, or try to get round the nightly limit or the safety checks;</li>
+        <li>try to extract, copy or reverse-engineer the service, its prompts or its models, or interfere with the cube&rsquo;s software except to use it;</li>
+        <li>claim, use or try to use a cube that is not yours, or share your account outside your household;</li>
+        <li>resell the service, or use it commercially or in a school, nursery or other institution without our written agreement.</li>
+      </ul>
+
+      <h2>8. Intellectual property</h2>
+      <p>
+        The Talepuff name and logo, the app, the cube&rsquo;s software, the service, the storytellers and their voices, and the characters and places of the Talepuff world are ours or our licensors&rsquo;. We give you a personal, non-transferable licence to use them as part of Talepuff while you have an account. Stories in your family&rsquo;s library are for your family&rsquo;s private listening; you may not publish, sell or distribute them. If you send us ideas or feedback, we may use them without owing you anything. Nothing in these terms gives you rights in any third party&rsquo;s characters, and nothing gives us rights in your child&rsquo;s name or words beyond what the privacy policy describes.
+      </p>
+
+      <h2>9. Warranty and returns</h2>
+      <p>
+        The cube is covered for one year from delivery against defects in materials and workmanship. This does not cover damage from accident, misuse, water, unauthorised repair or normal wear. Our remedy is, at our choice, to repair it, replace it or refund what you paid for it. Returns of a cube you have changed your mind about are described in the <a href="/legal/returns">returns policy</a>. These commitments are in addition to any rights the law gives you as a consumer, and do not reduce them.
+      </p>
+
+      <h2>10. Disclaimers</h2>
+      <p>
+        Except as set out in section 9, and to the extent the law allows, the service, the app and the cube&rsquo;s software are provided as they are and as available. We do not promise that the service will be uninterrupted or error-free, that every story will be suitable, or that the service will be available in every country. We may change, add or withdraw features; if we withdraw the service entirely we will give you at least 60 days&rsquo; notice and the refund described in section 5.
+      </p>
+
+      <h2>11. Limitation of liability</h2>
+      <p>
+        To the extent the law allows, we are not liable for indirect, incidental, special or consequential loss, or for loss of data, profits or goodwill, arising from Talepuff, however caused. To the extent the law allows, our total liability to you for all claims arising from Talepuff in any twelve-month period is limited to the greater of what you paid us in that period and one hundred US dollars. Nothing in these terms limits or excludes liability for death or personal injury caused by our negligence, for fraud, or for anything else that cannot be limited or excluded by law. Some places do not allow some of these limits; where that is so, they apply only as far as that place allows.
+      </p>
+
+      <h2>12. Your responsibility to us</h2>
+      <p>
+        You agree to compensate us for losses and reasonable legal costs that arise from your breach of these terms or your misuse of Talepuff, to the extent the law allows.
+      </p>
+
+      <h2>13. Ending the agreement</h2>
+      <p>
+        You may end it at any time by closing your account. We may end it if you break these terms and do not put it right within 14 days of our telling you, if your plan is unpaid for 30 days, or if we withdraw the service. When the agreement ends, your access to the service stops; the cube remains yours and replays what it carries on board; and we delete your account as described in the privacy policy. Sections 8, 11, 12, 14 and 15 survive.
+      </p>
+
+      <h2>14. Changes to these terms</h2>
+      <p>
+        We may change these terms. For a change that matters we will email account holders at least 30 days before it takes effect, and we will not make a change that reduces a child&rsquo;s protection apply to what was already collected. Continuing to use Talepuff after the change takes effect means you accept it; if you do not, close your account before then and we refund the unused part of any period you have paid for. Each version is dated at the top of this page.
+      </p>
+
+      <h2>15. Governing law and disputes</h2>
+      <p>
+        These terms are governed by the laws of the State of California, without regard to its conflict-of-law rules, and by United States federal law where it applies. If you have a problem, email us first: most things are put right by a reply. If we cannot resolve it within 30 days of your email, either of us may bring a claim in a court in Alameda County, California, or in small-claims court where you live if the claim qualifies. Nothing here stops you from using a consumer complaint body in your country or state. If you live outside the United States, mandatory consumer laws of your country apply where they give you more.
+      </p>
+
+      <h2>16. General</h2>
+      <p>
+        These terms, the privacy policy and the returns policy are the whole agreement between us about Talepuff. If part of them is found unenforceable, the rest still applies. Our not enforcing something is not a waiver of it. You may not transfer your account or this agreement to anyone else; we may transfer it to a successor who takes on our obligations, and we will tell you if we do.
+      </p>
+
+      <h2>17. Contact</h2>
+      <p>Java Mantra Corp, Fremont, California. <a href="mailto:hello@talepuff.com">hello@talepuff.com</a>.</p>
     </LegalDoc>
   );
 }
