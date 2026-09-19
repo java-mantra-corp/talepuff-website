@@ -26,7 +26,7 @@ export default function PrivacyPolicy() {
       </ul>
       <h2>3. Children&rsquo;s privacy (COPPA)</h2>
       <p>
-        Before the first story can be told, we obtain a parent&rsquo;s consent in the app, tied to the parent&rsquo;s account. We collect from a child only what a story needs: the request, a first name and an age. We do not show advertising, we do not build profiles for marketing, and we do not sell or rent children&rsquo;s data to anyone. A parent can review what was collected (in the app, and by email for the words of requests), withdraw consent and delete it at any time. Requests about children&rsquo;s data: <a href="mailto:hello@talepuff.com">hello@talepuff.com</a>.
+        Before the first story can be told, we obtain a parent&rsquo;s consent in the app, tied to the parent&rsquo;s account. We collect from a child only what a story needs: the request, a first name and an age. We do not show advertising, we do not build profiles for marketing, and we do not sell or rent children&rsquo;s data to anyone. A parent can review what was collected (stories in the app, and the words of requests emailed to the account address on request), withdraw consent, and delete everything at any time from the app. Requests about children&rsquo;s data: <a href="mailto:hello@talepuff.com">hello@talepuff.com</a>.
       </p>
       <h2>4. How we use it</h2>
       <ul>
@@ -50,7 +50,7 @@ export default function PrivacyPolicy() {
       </ul>
       <h2>7. Your choices</h2>
       <p>
-        In the app you can see each child&rsquo;s stories, change or remove a child, and withdraw consent. The words of a request are deliberately not shown on any screen; email us from the account address and we will send you the request words we still hold for your child within 30 days. To close the account, email us from the account address and we delete it as described above; closing in the app is coming with the store release. Deletion reaches our backups within 30 days. You can also email us to exercise any right you have under the laws of your state or country, including access, correction and deletion.
+        In the app you can see each child&rsquo;s stories, change or remove a child, withdraw consent, and close your account. Closing erases every child, story and recording; it cannot be undone, and it reaches our backups within 30 days. The words of a request are deliberately not shown on any screen: under Privacy, ask us to email them and we send the list, with the date each was said, to the address this account was opened with. You can also email us to exercise any right you have under the laws of your state or country, including access, correction and deletion.
       </p>
       <h2>8. Security</h2>
       <p>

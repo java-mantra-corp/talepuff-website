@@ -26,7 +26,7 @@ export default function Terms() {
 
       <h2>2. Your account</h2>
       <p>
-        You must give a real email address you control and keep your password to yourself. You are responsible for what is done on your account. Tell us at once if you think someone else has used it. We may suspend or close an account that breaks these terms, that has not paid for its plan, or that we reasonably believe is being used to harm a child or the service, and we will tell you if we do. You may close your account at any time by emailing us from the account address; closing in the app is coming with the store release.
+        You must give a real email address you control and keep your password to yourself. You are responsible for what is done on your account. Tell us at once if you think someone else has used it. We may suspend or close an account that breaks these terms, that has not paid for its plan, or that we reasonably believe is being used to harm a child or the service, and we will tell you if we do. You may close your account at any time from the app, under Settings, which erases your family as described in the privacy policy.
       </p>
 
       <h2>3. Children and consent</h2>
