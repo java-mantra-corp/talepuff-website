@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FaqItem } from "@/components/cards";
 import { PageIntro, PageShell, Section } from "@/components/page-shell";
+import { SupportChat } from "@/components/support-chat";
 import { SUPPORT_EMAIL, faqs } from "@/components/site-content";
 
 export const metadata: Metadata = {
@@ -41,6 +42,11 @@ export default function Support() {
         lede={`Most things are one screen away in the app. For everything else, ${SUPPORT_EMAIL} reaches a person.`}
       />
       <Section>
+        <div className="mx-auto max-w-2xl">
+          <SupportChat />
+        </div>
+      </Section>
+      <Section tone="raised">
         <h2 className="text-3xl font-bold tracking-tight">When something is wrong</h2>
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
           {fixes.map((f) => (
@@ -48,7 +54,7 @@ export default function Support() {
           ))}
         </div>
       </Section>
-      <Section tone="raised">
+      <Section>
         <h2 className="text-3xl font-bold tracking-tight">Questions parents ask</h2>
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
           {faqs.map((f) => (
