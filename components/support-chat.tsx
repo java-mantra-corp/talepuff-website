@@ -2,6 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { SUPPORT_EMAIL } from "@/components/site-content";
+import {
+  currentSession,
+  noSessionOnTheServer,
+  putSession,
+  subscribeToSession,
+} from "@/components/support-session";
 
 /**
  * The chat on the support page, talking to api.talepuff.com.
@@ -24,87 +30,9 @@ import { SUPPORT_EMAIL } from "@/components/site-content";
 const API = process.env.NEXT_PUBLIC_API_URL?.trim() || "https://api.talepuff.com";
 /** Matches MAX_MESSAGE on the server, so the limit is felt here rather than as a 422. */
 const MAX_MESSAGE = 2000;
-const TOKEN_KEY = "talepuff.support.token";
-const EXPIRY_KEY = "talepuff.support.expires";
+const MAILTO = `mailto:${SUPPORT_EMAIL}?subject=Talepuff%20support`;
 
 type Said = { who: "you" | "talepuff"; text: string };
-
-function readToken(): string | null {
-  try {
-    const token = sessionStorage.getItem(TOKEN_KEY);
-    const expires = sessionStorage.getItem(EXPIRY_KEY);
-    if (!token || !expires) return null;
-    if (Date.parse(expires) <= Date.now()) {
-      sessionStorage.removeItem(TOKEN_KEY);
-      sessionStorage.removeItem(EXPIRY_KEY);
-      return null;
-    }
-    return token;
-  } catch {
-    // Private browsing, or storage blocked. The chat still works for this page view.
-    return null;
-  }
-}
-
-function keepToken(token: string, expiresAt: string) {
-  try {
-    sessionStorage.setItem(TOKEN_KEY, token);
-    sessionStorage.setItem(EXPIRY_KEY, expiresAt);
-  } catch {
-    /* Not fatal: the token stays in memory for this page view. */
-  }
-}
-
-function forgetToken() {
-  try {
-    sessionStorage.removeItem(TOKEN_KEY);
-    sessionStorage.removeItem(EXPIRY_KEY);
-  } catch {
-    /* nothing to do */
-  }
-}
-
-/**
- * The token as external state, so React reads it the one correct way.
- *
- * `sessionStorage` cannot be touched while rendering: the server has no such thing, and
- * a component that reads it during render hydrates into a mismatch. Reading it in an
- * effect and calling setState works but costs a second render pass on every mount, which
- * is what the linter objects to. `useSyncExternalStore` exists for precisely this — a
- * server snapshot of "signed out", the real value once the browser takes over.
- */
-let memoryToken: string | null = null;
-let loadedFromStorage = false;
-const tokenListeners = new Set<() => void>();
-
-function currentToken(): string | null {
-  if (!loadedFromStorage) {
-    memoryToken = readToken();
-    loadedFromStorage = true;
-  }
-  return memoryToken;
-}
-
-function noTokenOnTheServer(): null {
-  return null;
-}
-
-function subscribeToToken(listener: () => void) {
-  tokenListeners.add(listener);
-  return () => {
-    tokenListeners.delete(listener);
-  };
-}
-
-function putToken(token: string | null, expiresAt?: string) {
-  memoryToken = token;
-  loadedFromStorage = true;
-  if (token && expiresAt) keepToken(token, expiresAt);
-  else forgetToken();
-  for (const listener of tokenListeners) listener();
-}
-
-const MAILTO = `mailto:${SUPPORT_EMAIL}?subject=Talepuff%20support`;
 
 function EmailInstead({ lead }: { lead: string }) {
   return (
@@ -119,17 +47,26 @@ function EmailInstead({ lead }: { lead: string }) {
 }
 
 export function SupportChat() {
-  const token = useSyncExternalStore(subscribeToToken, currentToken, noTokenOnTheServer);
+  const token = useSyncExternalStore(subscribeToSession, currentSession, noSessionOnTheServer);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signingIn, setSigningIn] = useState(false);
   const [signInError, setSignInError] = useState("");
-  // The signed-out card is either the sign-in form, the "email me a reset" form, or the
-  // "check your inbox" note. A forgotten password is the common case for a login set once
-  // at unboxing, so it has to have a way out that does not require the app.
-  const [recovery, setRecovery] = useState<"signin" | "request" | "sent">("signin");
+  // The front door is a magic link: enter an email, we send a one-time sign-in link, no
+  // password typed. A password login still exists behind "sign in with a password", and
+  // that path keeps its own "forgotten password" reset. The signed-out card is whichever
+  // of these five the parent is currently in.
+  //   magic       – ask for a sign-in link (default)
+  //   magic-sent  – "check your inbox" after asking for a link
+  //   password    – the email + password form
+  //   reset       – ask for a password-reset link (from the password form)
+  //   reset-sent  – "check your inbox" after asking for a reset
+  const [mode, setMode] = useState<
+    "magic" | "magic-sent" | "password" | "reset" | "reset-sent"
+  >("magic");
   const [requestingReset, setRequestingReset] = useState(false);
+  const [requestingMagic, setRequestingMagic] = useState(false);
 
   const [said, setSaid] = useState<Said[]>([]);
   const [draft, setDraft] = useState("");
@@ -147,7 +84,7 @@ export function SupportChat() {
 
   const signOut = useCallback(async () => {
     const current = token;
-    putToken(null);
+    putSession(null);
     setSaid([]);
     setWaitingOnAHuman(false);
     conversationId.current = null;
@@ -184,7 +121,7 @@ export function SupportChat() {
         return;
       }
       const body = await res.json();
-      putToken(body.parent_token, body.expires_at);
+      putSession(body.parent_token, body.expires_at);
       // The password is never kept, not even in component state.
       setPassword("");
     } catch {
@@ -194,13 +131,36 @@ export function SupportChat() {
     }
   }
 
+  async function requestMagic(e: React.FormEvent) {
+    e.preventDefault();
+    setSignInError("");
+    setRequestingMagic(true);
+    try {
+      // Always 202, even for an address with no account: the server will not say whether
+      // a family exists, so neither can the page. "Check your inbox" is shown either way.
+      const res = await fetch(`${API}/v1/parents/magic-link/request`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.status === 429) {
+        const after = Number(res.headers.get("Retry-After") || 60);
+        setSignInError(`Too many requests. Try again in ${after} seconds.`);
+        return;
+      }
+      setMode("magic-sent");
+    } catch {
+      setSignInError("We could not reach Talepuff just now.");
+    } finally {
+      setRequestingMagic(false);
+    }
+  }
+
   async function requestReset(e: React.FormEvent) {
     e.preventDefault();
     setSignInError("");
     setRequestingReset(true);
     try {
-      // Always 202, even for an address with no account: the server will not say whether
-      // a family exists. So the page cannot either, and "sent" is shown either way.
       const res = await fetch(`${API}/v1/parents/password-reset/request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -211,7 +171,7 @@ export function SupportChat() {
         setSignInError(`Too many requests. Try again in ${after} seconds.`);
         return;
       }
-      setRecovery("sent");
+      setMode("reset-sent");
     } catch {
       setSignInError("We could not reach Talepuff just now.");
     } finally {
@@ -239,7 +199,7 @@ export function SupportChat() {
       if (res.status === 401) {
         // Expired or revoked while the page was open. Say so rather than failing oddly,
         // and give the message back so it does not have to be typed twice.
-        putToken(null);
+        putSession(null);
         setDraft(message);
         setSaid((previous) => previous.slice(0, -1));
         setSignInError("That session ended. Sign in again and your message is still here.");
@@ -284,25 +244,27 @@ export function SupportChat() {
   if (!token) {
     const inputClass =
       "rounded-full border border-line bg-white/5 px-5 py-3 text-text placeholder:text-muted/70 outline-none focus:border-accent focus:ring-2 focus:ring-accent/40";
+    const linkClass = "self-start text-sm text-muted underline hover:text-text";
 
-    if (recovery === "sent") {
+    if (mode === "magic-sent" || mode === "reset-sent") {
+      const backTo = mode === "magic-sent" ? "magic" : "password";
       return (
         <div className="rounded-xl2 border border-line bg-panel p-6">
           <h3 className="text-xl font-bold">Check your email</h3>
           <p className="mt-2 text-sm text-muted">
-            If there is a Talepuff account for that address, a link to set a new password
-            is on its way. It works for one hour. Open it, choose a password, then come
-            back here and sign in.
+            {mode === "magic-sent"
+              ? "If there is a Talepuff account for that address, a link to sign in is on its way. It works for fifteen minutes. Open it and you are in."
+              : "If there is a Talepuff account for that address, a link to set a new password is on its way. It works for one hour."}
           </p>
           <button
             type="button"
             onClick={() => {
-              setRecovery("signin");
+              setMode(backTo);
               setSignInError("");
             }}
             className="mt-5 rounded-full bg-accent px-6 py-3 font-semibold text-bg transition hover:bg-accent-2"
           >
-            Back to sign in
+            Back
           </button>
           <div className="mt-5 border-t border-line pt-4">
             <EmailInstead lead="Still stuck?" />
@@ -311,7 +273,7 @@ export function SupportChat() {
       );
     }
 
-    if (recovery === "request") {
+    if (mode === "reset") {
       return (
         <div className="rounded-xl2 border border-line bg-panel p-6">
           <h3 className="text-xl font-bold">Reset your password</h3>
@@ -348,13 +310,87 @@ export function SupportChat() {
             <button
               type="button"
               onClick={() => {
-                setRecovery("signin");
+                setMode("password");
                 setSignInError("");
               }}
-              className="self-start text-sm text-muted underline hover:text-text"
+              className={linkClass}
             >
               Back to sign in
             </button>
+          </form>
+        </div>
+      );
+    }
+
+    if (mode === "password") {
+      return (
+        <div className="rounded-xl2 border border-line bg-panel p-6">
+          <h3 className="text-xl font-bold">Sign in with a password</h3>
+          <p className="mt-2 text-sm text-muted">
+            The same email and password you use in the app. We look at your own cubes and
+            plan while we answer, and never at what your child asked for.
+          </p>
+          <form onSubmit={signIn} className="mt-5 flex flex-col gap-3">
+            <label className="sr-only" htmlFor="support-email">
+              Email address
+            </label>
+            <input
+              id="support-email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@example.com"
+              className={inputClass}
+            />
+            <label className="sr-only" htmlFor="support-password">
+              Password
+            </label>
+            <input
+              id="support-password"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Your password"
+              className={inputClass}
+            />
+            <button
+              type="submit"
+              disabled={signingIn}
+              className="rounded-full bg-accent px-6 py-3 font-semibold text-bg transition hover:bg-accent-2 disabled:opacity-60"
+            >
+              {signingIn ? "Signing in…" : "Sign in and ask"}
+            </button>
+            {signInError ? (
+              <p role="alert" className="text-sm text-accent">
+                {signInError}
+              </p>
+            ) : null}
+            <div className="flex flex-wrap gap-x-4 gap-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("reset");
+                  setSignInError("");
+                }}
+                className={linkClass}
+              >
+                Forgotten your password?
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("magic");
+                  setSignInError("");
+                }}
+                className={linkClass}
+              >
+                Email me a link instead
+              </button>
+            </div>
           </form>
         </div>
       );
@@ -364,16 +400,17 @@ export function SupportChat() {
       <div className="rounded-xl2 border border-line bg-panel p-6">
         <h3 className="text-xl font-bold">Ask about your cube</h3>
         <p className="mt-2 text-sm text-muted">
-          Sign in with the same email and password you use in the app, and we can look at
-          your own cubes and plan while we answer. We never see what your child asked for
-          &mdash; that is yours, and no part of this chat can reach it.
+          Enter your email and we will send a link that signs you in &mdash; no password to
+          remember. Once you are in, we can look at your own cubes and plan while we answer.
+          We never see what your child asked for; that is yours, and no part of this chat
+          can reach it.
         </p>
-        <form onSubmit={signIn} className="mt-5 flex flex-col gap-3">
-          <label className="sr-only" htmlFor="support-email">
+        <form onSubmit={requestMagic} className="mt-5 flex flex-col gap-3">
+          <label className="sr-only" htmlFor="magic-email">
             Email address
           </label>
           <input
-            id="support-email"
+            id="magic-email"
             type="email"
             required
             autoComplete="email"
@@ -382,25 +419,12 @@ export function SupportChat() {
             placeholder="you@example.com"
             className={inputClass}
           />
-          <label className="sr-only" htmlFor="support-password">
-            Password
-          </label>
-          <input
-            id="support-password"
-            type="password"
-            required
-            autoComplete="current-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="Your password"
-            className={inputClass}
-          />
           <button
             type="submit"
-            disabled={signingIn}
+            disabled={requestingMagic}
             className="rounded-full bg-accent px-6 py-3 font-semibold text-bg transition hover:bg-accent-2 disabled:opacity-60"
           >
-            {signingIn ? "Signing in…" : "Sign in and ask"}
+            {requestingMagic ? "Sending…" : "Email me a sign-in link"}
           </button>
           {signInError ? (
             <p role="alert" className="text-sm text-accent">
@@ -410,12 +434,12 @@ export function SupportChat() {
           <button
             type="button"
             onClick={() => {
-              setRecovery("request");
+              setMode("password");
               setSignInError("");
             }}
-            className="self-start text-sm text-muted underline hover:text-text"
+            className={linkClass}
           >
-            Forgotten your password?
+            Sign in with a password instead
           </button>
         </form>
         <div className="mt-5 border-t border-line pt-4">
