@@ -48,6 +48,13 @@ export default function Support() {
       </Section>
       <Section tone="raised">
         <h2 className="text-3xl font-bold tracking-tight">When something is wrong</h2>
+        <p className="mt-3 text-muted">
+          Cube gone quiet? First check it&rsquo;s not us:{" "}
+          <a href="/status" className="font-semibold text-accent underline">
+            service status
+          </a>
+          .
+        </p>
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
           {fixes.map((f) => (
             <FaqItem key={f.title} q={f.title} a={f.body} />

@@ -21,6 +21,9 @@ export function SiteFooter() {
               </li>
             ))}
             <li>
+              <Link href="/status" className="hover:text-text">Service status</Link>
+            </li>
+            <li>
               <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-text">{SUPPORT_EMAIL}</a>
             </li>
           </ul>
