@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import { AppCodePage } from "@/components/app-code";
+import { ResetForm } from "@/components/reset-form";
 
-export const metadata: Metadata = { title: "Reset your password", robots: { index: false, follow: false } };
+export const metadata: Metadata = {
+  title: "Reset your password",
+  robots: { index: false, follow: false },
+};
 
 export default async function Reset({ searchParams }: { searchParams: Promise<{ token?: string }> }) {
   const { token = "" } = await searchParams;
-  return <AppCodePage kind="reset" token={token.trim()} />;
+  return <ResetForm token={token.trim()} />;
 }

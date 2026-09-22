@@ -125,6 +125,11 @@ export function SupportChat() {
   const [password, setPassword] = useState("");
   const [signingIn, setSigningIn] = useState(false);
   const [signInError, setSignInError] = useState("");
+  // The signed-out card is either the sign-in form, the "email me a reset" form, or the
+  // "check your inbox" note. A forgotten password is the common case for a login set once
+  // at unboxing, so it has to have a way out that does not require the app.
+  const [recovery, setRecovery] = useState<"signin" | "request" | "sent">("signin");
+  const [requestingReset, setRequestingReset] = useState(false);
 
   const [said, setSaid] = useState<Said[]>([]);
   const [draft, setDraft] = useState("");
@@ -186,6 +191,31 @@ export function SupportChat() {
       setSignInError("We could not reach Talepuff just now.");
     } finally {
       setSigningIn(false);
+    }
+  }
+
+  async function requestReset(e: React.FormEvent) {
+    e.preventDefault();
+    setSignInError("");
+    setRequestingReset(true);
+    try {
+      // Always 202, even for an address with no account: the server will not say whether
+      // a family exists. So the page cannot either, and "sent" is shown either way.
+      const res = await fetch(`${API}/v1/parents/password-reset/request`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.status === 429) {
+        const after = Number(res.headers.get("Retry-After") || 60);
+        setSignInError(`Too many requests. Try again in ${after} seconds.`);
+        return;
+      }
+      setRecovery("sent");
+    } catch {
+      setSignInError("We could not reach Talepuff just now.");
+    } finally {
+      setRequestingReset(false);
     }
   }
 
@@ -252,6 +282,84 @@ export function SupportChat() {
   }
 
   if (!token) {
+    const inputClass =
+      "rounded-full border border-line bg-white/5 px-5 py-3 text-text placeholder:text-muted/70 outline-none focus:border-accent focus:ring-2 focus:ring-accent/40";
+
+    if (recovery === "sent") {
+      return (
+        <div className="rounded-xl2 border border-line bg-panel p-6">
+          <h3 className="text-xl font-bold">Check your email</h3>
+          <p className="mt-2 text-sm text-muted">
+            If there is a Talepuff account for that address, a link to set a new password
+            is on its way. It works for one hour. Open it, choose a password, then come
+            back here and sign in.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setRecovery("signin");
+              setSignInError("");
+            }}
+            className="mt-5 rounded-full bg-accent px-6 py-3 font-semibold text-bg transition hover:bg-accent-2"
+          >
+            Back to sign in
+          </button>
+          <div className="mt-5 border-t border-line pt-4">
+            <EmailInstead lead="Still stuck?" />
+          </div>
+        </div>
+      );
+    }
+
+    if (recovery === "request") {
+      return (
+        <div className="rounded-xl2 border border-line bg-panel p-6">
+          <h3 className="text-xl font-bold">Reset your password</h3>
+          <p className="mt-2 text-sm text-muted">
+            Enter the email you use for Talepuff and we will send a link to choose a new
+            password.
+          </p>
+          <form onSubmit={requestReset} className="mt-5 flex flex-col gap-3">
+            <label className="sr-only" htmlFor="reset-email">
+              Email address
+            </label>
+            <input
+              id="reset-email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@example.com"
+              className={inputClass}
+            />
+            <button
+              type="submit"
+              disabled={requestingReset}
+              className="rounded-full bg-accent px-6 py-3 font-semibold text-bg transition hover:bg-accent-2 disabled:opacity-60"
+            >
+              {requestingReset ? "Sending…" : "Email me a reset link"}
+            </button>
+            {signInError ? (
+              <p role="alert" className="text-sm text-accent">
+                {signInError}
+              </p>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => {
+                setRecovery("signin");
+                setSignInError("");
+              }}
+              className="self-start text-sm text-muted underline hover:text-text"
+            >
+              Back to sign in
+            </button>
+          </form>
+        </div>
+      );
+    }
+
     return (
       <div className="rounded-xl2 border border-line bg-panel p-6">
         <h3 className="text-xl font-bold">Ask about your cube</h3>
@@ -272,7 +380,7 @@ export function SupportChat() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="you@example.com"
-            className="rounded-full border border-line bg-white/5 px-5 py-3 text-text placeholder:text-muted/70 outline-none focus:border-accent focus:ring-2 focus:ring-accent/40"
+            className={inputClass}
           />
           <label className="sr-only" htmlFor="support-password">
             Password
@@ -285,7 +393,7 @@ export function SupportChat() {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             placeholder="Your password"
-            className="rounded-full border border-line bg-white/5 px-5 py-3 text-text placeholder:text-muted/70 outline-none focus:border-accent focus:ring-2 focus:ring-accent/40"
+            className={inputClass}
           />
           <button
             type="submit"
@@ -299,6 +407,16 @@ export function SupportChat() {
               {signInError}
             </p>
           ) : null}
+          <button
+            type="button"
+            onClick={() => {
+              setRecovery("request");
+              setSignInError("");
+            }}
+            className="self-start text-sm text-muted underline hover:text-text"
+          >
+            Forgotten your password?
+          </button>
         </form>
         <div className="mt-5 border-t border-line pt-4">
           <EmailInstead lead="Would rather not sign in?" />
