@@ -502,7 +502,7 @@ export function SupportChat() {
 
       {waitingOnAHuman ? (
         <p className="mt-4 rounded-xl2 border border-line bg-white/5 px-4 py-3 text-sm">
-          A person has this now. They will reply by email, so there is nothing more to do
+          Our team has this now. They will reply by email, so there is nothing more to do
           here.
         </p>
       ) : null}
