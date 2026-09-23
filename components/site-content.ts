@@ -129,7 +129,7 @@ export const faqs = [
   },
   {
     q: "What happens if I stop paying?",
-    a: "The cube keeps working. Every story already told stays and can be replayed; only new stories pause until the plan is back on.",
+    a: "The cube keeps working. Every story it has already told stays, and playing one is free forever \u2014 your child presses the button and says \u201cagain\u201d, or names it: \u201cthe one about the dragon\u201d. Only new stories pause until there is a plan again, and the cube says so kindly and offers an old favourite by name rather than going quiet.",
   },
   {
     q: "Can I delete everything?",
